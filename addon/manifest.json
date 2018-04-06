@@ -13,6 +13,7 @@
   },
   "background": {
     "scripts": [
+      "build/pouchdb.min.js",
       "background.js"
     ]
   },
@@ -21,8 +22,8 @@
     "default_title": "Open the copy drawer"
   },
   "sidebar_action": {
-    "default_title": "Side View",
-    "default_panel": "sidebar.html"
+    "default_title": "Copy Keeper",
+    "default_panel": "sidebar.html?sidebar"
   },
   "content_scripts": [
     {
@@ -39,6 +40,7 @@
     "tabs",
     "tabHide",
     "<all_urls>",
-    "contextMenus"
+    "contextMenus",
+    "clipboard"
   ]
 }

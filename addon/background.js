@@ -1,3 +1,5 @@
+const db = new PouchDB('copy-keeper');
+
 browser.contextMenus.create({
   id: "copy-keeper",
   title: "Save selection to Copy Keeper...",
@@ -6,7 +8,7 @@ browser.contextMenus.create({
 });
 
 browser.browserAction.onClicked.addListener(async () => {
-  browser.sidebar.open();
+  browser.sidebarAction.open();
 });
 
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
@@ -16,7 +18,14 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 browser.runtime.onMessage.addListener((message, source) => {
-  if (message.type === "xxx") {
+  if (message.type === "copy") {
+    let doc = {...message};
+    delete doc.type;
+    doc._id = `copy-${Date.now()}`;
+    db.put(doc);
+  } else if (message.type === "openInTab") {
+    let url = browser.extension.getURL("sidebar.html");
+    browser.tabs.create({url, active: true});
   } else {
     console.error("Unexpected message type:", message.type);
   }
