@@ -4,9 +4,9 @@ document.addEventListener("copy", (event) => {
   let focusNode = getElement(selection.focusNode);
   let startPosition = selection.getRangeAt(0).getBoundingClientRect();
   let closestId = findClosestId(startPosition.top);
-  let rect = anchorNode.getBoundingClientRect();
+  let rect = findBlockParent(anchorNode).getBoundingClientRect();
   if (focusNode && focusNode !== anchorNode) {
-    rect = rectSum(rect, focusNode.getBoundingClientRect());
+    rect = rectSum(rect, findBlockParent(focusNode).getBoundingClientRect());
   }
   if (rect.height < 30) {
     rect.top -= 30;
@@ -14,7 +14,7 @@ document.addEventListener("copy", (event) => {
     rect.height += rect.bottom - rect.top;
   }
   let docTitle = document.title;
-  let ogTitleEl = document.querySelector("meta[name='og:title'], meta[name='twitter:title']")
+  let ogTitleEl = document.querySelector("meta[name='og:title'], meta[name='twitter:title']");
   if (ogTitleEl) {
     docTitle = ogTitleEl.getAttribute("content");
   }
@@ -53,9 +53,8 @@ function findClosestId(y) {
   }
   if (best) {
     return best.id;
-  } else {
-    return null;
   }
+  return null;
 }
 
 const BLOCK_DISPLAYS = {
@@ -64,7 +63,7 @@ const BLOCK_DISPLAYS = {
   "flex": true,
   "grid": true,
   "list-item": true,
-}
+};
 
 function isBlockElement(el) {
   return !!BLOCK_DISPLAYS[getComputedStyle(el).display];

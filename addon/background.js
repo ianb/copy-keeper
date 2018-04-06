@@ -1,4 +1,5 @@
-const db = new PouchDB('copy-keeper');
+/* globals PouchDB */
+const db = new PouchDB("copy-keeper");
 
 browser.contextMenus.create({
   id: "copy-keeper",
