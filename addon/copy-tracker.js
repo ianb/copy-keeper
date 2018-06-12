@@ -94,7 +94,7 @@ function screenshotBox(box) {
   canvas.width = box.width * window.devicePixelRatio;
   canvas.height = box.height * window.devicePixelRatio;
   ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-  ctx.drawWindow(window, box.left, box.top, box.width, box.height, "#fff");
+  ctx.drawWindow(window, box.left + window.scrollX, box.top + window.scrollY, box.width, box.height, "#fff");
   return {
     url: canvas.toDataURL(),
     height: box.height,
